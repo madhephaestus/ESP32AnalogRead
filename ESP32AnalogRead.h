@@ -9,8 +9,9 @@ private:
 	int myPin=0;
 	 esp_adc_cal_characteristics_t characteristics;
 	 adc_channel_t channel ;
+	 boolean attached=false;
 public :
-	ESP32AnalogRead(){}
+	ESP32AnalogRead(int pin=-1);
 	~ESP32AnalogRead(){}
 	void attach(int pin);
 	float readVoltage();

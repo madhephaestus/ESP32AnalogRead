@@ -3,23 +3,31 @@
  *
  *  Created on: Apr 10, 2020
  *      Author: hephaestus
+ *      https://github.com/madhephaestus/ESPMutexDemo/blob/DSPTest/ESPMutexDemo.ino
  */
 
 
 #include "ESP32AnalogRead.h"
 
-
+ESP32AnalogRead::ESP32AnalogRead(int pinNum){
+	if(!pinNum<0){
+		attach(pinNum);
+	}
+}
 void ESP32AnalogRead::attach(int pin){
 	myPin=pin;
 	channel = (adc_channel_t)digitalPinToAnalogChannel(myPin);
+	attached=true;
 }
 
 float ESP32AnalogRead::readVoltage(){
 	float mv= readMiliVolts();
 
-	return mv/1000.0;
+	return mv*0.001;
 }
 uint32_t  ESP32AnalogRead::readMiliVolts(){
+	if(!attached)
+		return 0;
 	analogRead(myPin);
     // Configure ADC
     adc1_config_width(ADC_WIDTH_12Bit);

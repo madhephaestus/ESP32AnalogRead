@@ -10,7 +10,7 @@
 #include "ESP32AnalogRead.h"
 
 ESP32AnalogRead::ESP32AnalogRead(int pinNum){
-	if(!pinNum<0){
+	if(!(pinNum<0)){
 		attach(pinNum);
 	}
 }

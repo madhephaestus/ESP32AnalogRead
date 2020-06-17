@@ -59,11 +59,9 @@ uint32_t ESP32AnalogRead::readMiliVolts() {
 
 	if (myPin > 27) {
 		adc1_config_width(ADC_WIDTH_12Bit);
-		adc1_channel_t chan;
+		adc1_channel_t chan= ADC1_CHANNEL_0;
 		switch (myPin) {
-		case 36:
-			chan = ADC1_CHANNEL_0;
-			break;
+
 		case 36:
 			chan = ADC1_CHANNEL_0;
 			break;
@@ -91,7 +89,7 @@ uint32_t ESP32AnalogRead::readMiliVolts() {
 		}
 		adc1_config_channel_atten(chan, ADC_ATTEN_11db);
 	} else {
-		adc2_channel_t chan;
+		adc2_channel_t chan= ADC2_CHANNEL_0;
 		switch (myPin) {
 		case 4:
 			chan = ADC2_CHANNEL_0;

@@ -1,0 +1,5 @@
+<map id="ESP32AnalogRead::~ESP32AnalogRead" name="ESP32AnalogRead::~ESP32AnalogRead">
+<area shape="rect" id="node2" href="$classESP32AnalogRead.html#a98cbb01c69b2273c61cf9fc876367309" title="ESP32AnalogRead::attach" alt="" coords="332,5,511,32"/>
+<area shape="rect" id="node3" href="$classESP32AnalogRead.html#a9a94737b4ad1c6bd43bbd1c463ae97db" title="ESP32AnalogRead::readMili\lVolts" alt="" coords="575,74,761,115"/>
+<area shape="rect" id="node4" href="$classESP32AnalogRead.html#a7e1eeb11bbe426f91769375c58619b46" title="ESP32AnalogRead::readVoltage" alt="" coords="316,107,527,133"/>
+</map>

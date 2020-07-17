@@ -1,0 +1,4 @@
+<map id="loop" name="loop">
+<area shape="rect" id="node2" href="$classESP32AnalogRead.html#a7e1eeb11bbe426f91769375c58619b46" title="ESP32AnalogRead::readVoltage" alt="" coords="100,13,311,39"/>
+<area shape="rect" id="node3" href="$classESP32AnalogRead.html#a9a94737b4ad1c6bd43bbd1c463ae97db" title="ESP32AnalogRead::readMili\lVolts" alt="" coords="359,5,545,47"/>
+</map>

@@ -56,10 +56,11 @@ uint32_t ESP32AnalogRead::readMiliVolts() {
 		return 0;
 	analogRead(myPin);
 	// Configure ADC
-
+	adc_unit_t unit;
 	if (myPin > 27) {
 		adc1_config_width(ADC_WIDTH_12Bit);
 		adc1_channel_t chan= ADC1_CHANNEL_0;
+		unit=ADC_UNIT_1;
 		switch (myPin) {
 
 		case 36:
@@ -90,6 +91,7 @@ uint32_t ESP32AnalogRead::readMiliVolts() {
 		adc1_config_channel_atten(chan, ADC_ATTEN_11db);
 	} else {
 		adc2_channel_t chan= ADC2_CHANNEL_0;
+		unit=ADC_UNIT_2;
 		switch (myPin) {
 		case 4:
 			chan = ADC2_CHANNEL_0;
@@ -124,10 +126,21 @@ uint32_t ESP32AnalogRead::readMiliVolts() {
 		}
 		adc2_config_channel_atten(chan, ADC_ATTEN_11db);
 	}
-
 	// Calculate ADC characteristics i.e. gain and offset factors
-	esp_adc_cal_get_characteristics(V_REF, ADC_ATTEN_DB_11, ADC_WIDTH_BIT_12,
+#ifdef ESP_IDF_VERSION
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 0, 0)
+	esp_adc_cal_characterize(unit,
+			ADC_ATTEN_DB_11,
+			ADC_WIDTH_BIT_12,
+			V_REF,
 			&characteristics);
+#endif
+#else
+	esp_adc_cal_get_characteristics(V_REF, ADC_ATTEN_DB_11, ADC_WIDTH_BIT_12,&characteristics);
+#endif
+
+
+
 	uint32_t voltage = 0;
 	// Read ADC and obtain result in mV
 	esp_adc_cal_get_voltage(channel, &characteristics, &voltage);

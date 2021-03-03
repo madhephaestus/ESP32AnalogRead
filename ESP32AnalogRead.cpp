@@ -144,5 +144,5 @@ uint32_t ESP32AnalogRead::readMiliVolts() {
 	uint32_t voltage = 0;
 	// Read ADC and obtain result in mV
 	esp_adc_cal_get_voltage(channel, &characteristics, &voltage);
-	return voltage - 50;
+	return voltage;
 }

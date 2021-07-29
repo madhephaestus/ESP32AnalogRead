@@ -16,7 +16,6 @@ ESP32AnalogRead::ESP32AnalogRead(int pinNum) {
 void ESP32AnalogRead::attach(int pin) {
 	myPin = pin;
 	channel = (adc_channel_t) digitalPinToAnalogChannel(myPin);
-	Serial.println(channel, HEX);
 	attached = true;
 }
 

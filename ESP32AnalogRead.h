@@ -9,6 +9,8 @@ private:
 	int myPin=0;
 	 esp_adc_cal_characteristics_t characteristics;
 	 adc_channel_t channel ;
+	 adc1_channel_t adc1_channel;
+	 adc2_channel_t adc2_channel;
 	 boolean attached=false;
 public :
 	ESP32AnalogRead(int pin=-1);

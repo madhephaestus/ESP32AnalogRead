@@ -18,4 +18,5 @@ public :
 	void attach(int pin);
 	float readVoltage();
 	uint32_t readMiliVolts();
+	uint16_t readRaw();
 };

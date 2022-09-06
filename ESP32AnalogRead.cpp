@@ -573,7 +573,6 @@ uint16_t ESP32AnalogRead::readRaw()
 #endif
 
 	int32_t raw = 0;
-	uint32_t voltage = 0;
 	// Read ADC and obtain result in mV
 	if (unit == ADC_UNIT_1)
 	{

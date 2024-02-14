@@ -8,6 +8,9 @@
 
 #include "ESP32AnalogRead.h"
 
+#undef ADC_WIDTH_BIT_DEFAULT
+#define ADC_WIDTH_BIT_DEFAULT   ((adc_bits_width_t) ((int)ADC_WIDTH_MAX-1))
+
 ESP32AnalogRead::ESP32AnalogRead(int pinNum)
 {
 	if (!(pinNum < 0))
@@ -19,6 +22,7 @@ void ESP32AnalogRead::attach(int pin)
 {
 	myPin = pin;
 	channel = (adc_channel_t)digitalPinToAnalogChannel(myPin);
+
 	attached = true;
 }
 
@@ -56,7 +60,7 @@ float ESP32AnalogRead::readVoltage()
  */
 uint32_t ESP32AnalogRead::readMiliVolts()
 {
-#if defined(CONFIG_IDF_TARGET_ESP32S2)
+#if defined(CONFIG_IDF_TARGET_ESP32S2) || defined(CONFIG_IDF_TARGET_ESP32S3)
 	if (!attached)
 		return 0;
 	analogRead(myPin);
@@ -64,7 +68,7 @@ uint32_t ESP32AnalogRead::readMiliVolts()
 	adc_unit_t unit;
 	if (myPin < 11)
 	{
-		adc1_config_width(ADC_WIDTH_BIT_13);
+		adc1_config_width(ADC_WIDTH_BIT_DEFAULT);
 		adc1_channel_t chan = ADC1_CHANNEL_0;
 		unit = ADC_UNIT_1;
 		switch (myPin)
@@ -144,12 +148,13 @@ uint32_t ESP32AnalogRead::readMiliVolts()
 		adc2_channel = chan;
 		adc2_config_channel_atten(chan, ADC_ATTEN_11db);
 	}
+
 	// Calculate ADC characteristics i.e. gain and offset factors
 #ifdef ESP_IDF_VERSION
 #if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(3, 1, 0)
 	esp_adc_cal_characterize(unit,
 							 ADC_ATTEN_DB_11,
-							 ADC_WIDTH_BIT_13,
+							 ADC_WIDTH_BIT_DEFAULT,
 							 V_REF,
 							 &characteristics);
 #else
@@ -167,7 +172,7 @@ uint32_t ESP32AnalogRead::readMiliVolts()
 	}
 	else
 	{
-		adc2_get_raw(adc2_channel, ADC_WIDTH_BIT_13, &raw);
+		adc2_get_raw(adc2_channel, ADC_WIDTH_BIT_DEFAULT, &raw);
 	}
 	voltage = esp_adc_cal_raw_to_voltage(raw, &characteristics);
 	return voltage;
@@ -361,7 +366,7 @@ uint32_t ESP32AnalogRead::readMiliVolts()
 
 uint16_t ESP32AnalogRead::readRaw()
 {
-#if defined(CONFIG_IDF_TARGET_ESP32S2)
+#if defined(CONFIG_IDF_TARGET_ESP32S2) || defined(CONFIG_IDF_TARGET_ESP32S3)
 	if (!attached)
 		return 0;
 	analogRead(myPin);
@@ -369,7 +374,7 @@ uint16_t ESP32AnalogRead::readRaw()
 	adc_unit_t unit;
 	if (myPin < 11)
 	{
-		adc1_config_width(ADC_WIDTH_BIT_13);
+		adc1_config_width(ADC_WIDTH_BIT_DEFAULT);
 		adc1_channel_t chan = ADC1_CHANNEL_0;
 		unit = ADC_UNIT_1;
 		switch (myPin)
@@ -454,7 +459,7 @@ uint16_t ESP32AnalogRead::readRaw()
 #if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(3, 1, 0)
 	esp_adc_cal_characterize(unit,
 							 ADC_ATTEN_DB_11,
-							 ADC_WIDTH_BIT_13,
+							 ADC_WIDTH_BIT_DEFAULT,
 							 V_REF,
 							 &characteristics);
 #else
@@ -472,7 +477,7 @@ uint16_t ESP32AnalogRead::readRaw()
 	}
 	else
 	{
-		adc2_get_raw(adc2_channel, ADC_WIDTH_BIT_13, &raw);
+		adc2_get_raw(adc2_channel, ADC_WIDTH_BIT_DEFAULT, &raw);
 	}
 	return raw;
 #elif defined(CONFIG_IDF_TARGET_ESP32)

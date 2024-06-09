@@ -4,6 +4,7 @@ Load the calibration data and provide a calibrated analog read
 # Supported Versions
 - ESP32
 - ESP32-S2
+- ESP32-S3
 
 # Documentation by Doxygen
 
